@@ -40,14 +40,14 @@ server <- function(input, output, session) {
   output$countrySelectorOutput <- renderUI({
     selectInput("countryInput", "Country",
                 sort(unique(bcl$Country)),
-                selected = "CANADA")
+                selected = "UNITED STATES OF AMERICA")
   })
   
   ## render input box for product type (changed to checkboxGroupInput instead of selectInput)
   output$typeSelectOutput <- renderUI({
-    checkboxGroupInput("typeInput", "Product type",
+    checkboxGroupInput("typeInput", "Select Product type",
                 sort(unique(bcl$Type)),
-                selected = c("BEER", "WINE"))
+                selected = c("BEER","SPIRITS" ))
   })
   
   ## render slider for sweetness
@@ -59,7 +59,8 @@ server <- function(input, output, session) {
   output$subtypeSelectOutput <- renderUI({
     selectInput("subtypeInput", "Product subtype",
                 sort(unique(bcl$Subtype[bcl$Type %in% input$typeInput])),
-                multiple = TRUE)
+                multiple = TRUE ,
+                selected = c("AMERICAN WHISKY","DARK" ))
   })
   
   ## a conditionalPanel for ascending or descending ordering of price
@@ -131,7 +132,7 @@ server <- function(input, output, session) {
     
     gp <- ggplot(prices(), aes(prices()[, input$plotType], fill = Type)) +
       # alpha controlled by UI
-      geom_histogram(colour = "black", alpha = input$plotAlpha , bins = 30) +
+      geom_histogram(colour = "blue", alpha = input$plotAlpha , bins = 30) +
       # color scheme controlled by UI
       scale_fill_brewer(
         palette = input$fillBrewer
