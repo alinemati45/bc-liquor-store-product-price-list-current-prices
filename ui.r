@@ -110,11 +110,14 @@ ui <- dashboardPage(skin = "black",
           ## license
           hr(), br(), br(),
           em(
-            span("Data source:", 
+            span("Github Download Code:", 
                  tags$a("OpenDataBC",
                         href = "https://github.com/alinemati45/bc-liquor-store-product-price-list-current-prices")),
             br(), 
             span("Improvded by Ali Nemati, Created by ", a(href = "https://github.com/daattali/shiny-server/tree/master/bcl", "Dean Attali"))
+            ,br(), 
+            
+                img(src = "https://uwm.edu/externalrelations/wp-content/uploads/sites/437/2019/09/graphic-for-logos.jpg")
           )
       )),
       # data page

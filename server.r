@@ -6,14 +6,15 @@ library(tidyverse)
 library(leaflet)
 library(shinyjs)
 library(RCurl)
+library(RCurl)
 
 ## load the data (retrieve and clean raw data if this is the first time)
 filename <- file.path("data", "bcl-data.csv")
 if (file.exists(filename)) {
   bcl <- read.csv(filename, stringsAsFactors = FALSE)
 } else {
-  bcl <- read.csv("http://pub.data.gov.bc.ca/datasets/176284/BC_Liquor_Store_Product_Price_List.csv",
-                  stringsAsFactors = FALSE)
+  x <- getURL("https://raw.githubusercontent.com/alinemati45/bc-liquor-store-product-price-list-current-prices/main/data/bcl-data.csv" , stringsAsFactors = FALSE)
+  bcl <- read.csv(text = x) 
   products <- c("BEER", "REFRESHMENT BEVERAGE", "SPIRITS", "WINE")
   bcl <- dplyr::filter(bcl, PRODUCT_CLASS_NAME %in% products) %>%
     dplyr::select(-PRODUCT_TYPE_NAME, -PRODUCT_SKU_NO, -PRODUCT_BASE_UPC_NO,
