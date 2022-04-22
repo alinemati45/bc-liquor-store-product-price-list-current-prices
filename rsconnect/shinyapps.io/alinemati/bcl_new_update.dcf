@@ -1,0 +1,13 @@
+name: bcl_new_update
+title: bcl_new_update
+username:
+account: alinemati
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6126330
+bundleId: 5815565
+url: https://alinemati.shinyapps.io/bcl_new_update/
+when: 1650410103.986
+lastSyncTime: 1650410103.986
+asMultiple: FALSE
+asStatic: FALSE
