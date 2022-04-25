@@ -1,1 +1,1 @@
-# bc-liquor-store-product-price-list-current-prices
+# bc liquor store product price list current-prices
