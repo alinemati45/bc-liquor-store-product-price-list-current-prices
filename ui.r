@@ -7,14 +7,15 @@ library(shinyjs)
 
 ui <- dashboardPage(skin = "purple",
   dashboardHeader(
-    title = "BC Liquor store prices By AliN",
-    titleWidth = 400
+    title = "BC Liquor store prices By Ali Nemati",
+    titleWidth = 600
+    
   ),
   dashboardSidebar(
-    width = 300,
+    width = 500,
     sidebarMenu( 
       menuItem("Welcome to my applicatoin!", tabName = "index", icon = icon("home", lib = "glyphicon")),
-      menuItem("Would you like to Find a liquor App!", tabName = "database", icon = icon("glass", lib = "glyphicon")),
+      menuItem("Find my liquor!", tabName = "database", icon = icon("glyphicon glyphicon-search", lib = "glyphicon")),
       menuItem("Settings", startExpanded = TRUE, icon = icon("cog", lib = "glyphicon"),
         tabsetPanel(id = "optionTabs", type = "tabs",
           ## tabPanel for sort and filter
@@ -37,14 +38,14 @@ ui <- dashboardPage(skin = "purple",
                    # filter by subtype
                    uiOutput("subtypeSelectOutput"),
                    # filter by country
-                   checkboxInput("filterCountry", "Filter by country", FALSE),
+                   checkboxInput("filterCountry", "Filter by country", TRUE),
                    conditionalPanel(
                      condition = "input.filterCountry",
                      uiOutput("countrySelectorOutput")
                    )
           ),
           ## tabPanel for changing appearance
-          tabPanel("Appearance", icon = icon("heart", lib = "glyphicon"),
+          tabPanel("Appearance plots", icon = icon("glyphicon glyphicon-user", lib = "glyphicon"),
                    # provide different plots
                    radioButtons("plotType", "Changing Plot type",
                                 c("Alcohol Content" = "Alcohol_Content",
@@ -60,16 +61,27 @@ ui <- dashboardPage(skin = "purple",
                                   "Paired" = "Paired",
                                   "Dark2" = "Dark2",
                                   "Accent" = "Accent")),
-                   # add color parameter to the map
-                   radioButtons("mapColor", "Changing Color map",
-                                c("Red" = "Reds",
-                                  "Purple" = "Purples",
-                                  "Orange" = "Oranges",
-                                  "Grey" = "Greys",
-                                  "Green" = "Greens",
-                                  "Blue" = "Blues")),
                    # fold plot and table into tabs
-                   checkboxInput("foldResults", "Fold plot and table into tabs", FALSE)
+                   checkboxInput("foldResults", "Fold plot and table into tabs", TRUE)
+          ),
+          ## tabPanel for changing appearance
+          tabPanel("Appearance map", icon = icon("glyphicon glyphicon-user", lib = "glyphicon"),
+                    # add color parameter to the map
+                   radioButtons("mapColor", "Changing Color map",
+                                c("Blue" = "Blues", "Grey" = "Greys",  "Purple" = "Purples", "Orange" = "Oranges",
+                                  "Black" = "Blacks" , "Red" = "Reds"))
+          ),
+          ## tabPanel for changing appearance
+          tabPanel("About Me", icon = icon("glyphicon glyphicon-user", lib = "glyphicon"),
+                   # add color parameter to the map
+                   fluidRow(column(3,"My Neme is Ali Nemati. " )),
+                   fluidRow(column(3,"Phd studnet at UWM. ")),
+                   
+                   fluidRow(column(3,"Email: Nemati@uwm.edu")),
+                   
+
+          
+
           )
         )
       )
@@ -92,6 +104,7 @@ ui <- dashboardPage(skin = "purple",
           });
         }
       ")),
+  
     # tabItems
     tabItems(
       # welcome page
@@ -102,22 +115,23 @@ ui <- dashboardPage(skin = "purple",
               img(src = "logo.gif")
           ),
           # description
-          h4(
-            "Had a long day?  This app will help you find the right drink for tonight! Just click on ",
+          h2(
+            "Just click on ",
             a("Find my liquor", onclick = "openTab('database')", href = "#"),
             " and use the filters at the left!"
           ),
+          br(), 
+          
+          img(src = "https://uwm.edu/externalrelations/wp-content/uploads/sites/437/2019/09/graphic-for-logos.jpg"),
           ## license
           hr(), br(), br(),
           em(
             span("Github Download Code:", 
-                 tags$a("OpenDataBC",
+                 tags$a("bc-liquor-store-product-price-list-current-prices",
                         href = "https://github.com/alinemati45/bc-liquor-store-product-price-list-current-prices")),
             br(), 
             span("Improvded by Ali Nemati (Nemati@UWM.edu), Created by ", a(href = "https://github.com/daattali/shiny-server/tree/master/bcl", "Dean Attali"))
-            ,br(), 
             
-                img(src = "https://uwm.edu/externalrelations/wp-content/uploads/sites/437/2019/09/graphic-for-logos.jpg")
           )
       )),
       # data page
@@ -127,6 +141,7 @@ ui <- dashboardPage(skin = "purple",
           br(),
           uiOutput("showResults")
         ))
+      
     )
   )
 )

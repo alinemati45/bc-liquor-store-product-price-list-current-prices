@@ -288,4 +288,6 @@ server <- function(input, output, session) {
       alert("No liquor is selected!")
     }
   })
+  
+  
 }
