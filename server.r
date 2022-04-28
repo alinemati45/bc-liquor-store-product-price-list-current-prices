@@ -133,6 +133,7 @@ server <- function(input, output, session) {
     gp <- ggplot(prices(), aes(prices()[, input$plotType], fill = Type)) +
       # alpha controlled by UI
       geom_histogram(colour = "blue", alpha = input$plotAlpha , bins = 30) +
+      #geom_abline()+
       # color scheme controlled by UI
       scale_fill_brewer(
         palette = input$fillBrewer
@@ -142,10 +143,34 @@ server <- function(input, output, session) {
         x = input$plotType,
         y = "Count"
       ) +
-      theme_bw()
+      theme_minimal()
     
     plotly::ggplotly(gp)
   })
+  # 
+  # output$plot_2 <- renderPlotly({
+  #   if (is.null(prices())) {
+  #     return(NULL)
+  #   }
+  #   
+  #   gp <- ggplot(prices(), aes(prices()[, input$plotType], fill = Type)) +
+  #     # alpha controlled by UI
+  #     geom_bar(colour = "blue", alpha = input$plotAlpha , bins = 30) +
+  #     #geom_abline()+
+  #     # color scheme controlled by UI
+  #     scale_fill_brewer(
+  #       palette = input$fillBrewer
+  #     ) +
+  #     # modify label
+  #     labs(
+  #       x = input$plotType,
+  #       y = "Count"
+  #     ) +
+  #     theme_minimal()
+  #   
+  #   plotly::ggplotly(gp)
+  # })
+  # 
   
   ## interative table (originally implemented)
   output$prices <- DT::renderDataTable({
@@ -235,8 +260,11 @@ server <- function(input, output, session) {
     }
     
    if (input$foldResults) {
+     
      tabsetPanel(id = "resultsTabs", type = "tabs",
        # tabPanel for plot
+       
+       
        tabPanel("Plot",
         plotlyOutput("plot")
        ),
@@ -248,13 +276,22 @@ server <- function(input, output, session) {
         # download button (originally implemented)
         downloadButton("download", "Download results")
        ),
+       
        # tabPanel for map
-       tabPanel("Where are your liquor from?",
-        leafletOutput("map", height = 800)
-       )
+       tabPanel("Country Map?",
+                leafletOutput("map", height = 800)
+       ),
+       
+       tabPanel("Session Info", icon = icon("glyphicon glyphicon-zoom-in", lib = "glyphicon"),
+                verbatimTextOutput("sessionInfo")),
      )
    } else {
      tabsetPanel(id = "resultsTabs", type = "tabs",
+                 
+                 # tabPanel for map
+                 # tabPanel("Country Map?",
+                 #          leafletOutput("map", height = 800)
+                 # ),
        # tabPanel for plot and table
        tabPanel("Plot & Table",
          plotlyOutput("plot"),
@@ -264,10 +301,22 @@ server <- function(input, output, session) {
          # download button (originally implemented)
          downloadButton("download", "Download results")
        ),
+       # tabPanel("Plot & Table",
+       #          plotlyOutput("plot_2"),
+       #          DT::dataTableOutput("prices"),
+       #          # search button
+       #          actionButton("search", "Search on Google", icon = icon("search", lib = "glyphicon")),
+       #          # download button (originally implemented)
+       #          downloadButton("download", "Download results")
+       # ),
+       # 
+       
        # tabPanel for map
-       tabPanel("Where are your liquor from?",
-         leafletOutput("map", height = 800)
-       )
+       tabPanel("Country Map?",
+                leafletOutput("map", height = 800)
+       ),
+       tabPanel("Session Info", icon = icon("glyphicon glyphicon-zoom-in", lib = "glyphicon"),
+                verbatimTextOutput("sessionInfo")),
      )
    }
   })
@@ -289,5 +338,9 @@ server <- function(input, output, session) {
     }
   })
   
+  # Session Info
+  output$sessionInfo <- renderPrint({
+    capture.output(sessionInfo())
+  })
   
 }
