@@ -29,3 +29,7 @@ This is the repository for a R shiny app that introduces the bc liquor store pro
 <img src="demo/demo5.png" alt="demo5" width="75%"/>
 </center>
 
+
+<center>
+<img src="demo/demo6.png" alt="demo5" width="75%"/>
+</center>
